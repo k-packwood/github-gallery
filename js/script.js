@@ -74,6 +74,7 @@ const displayRepoInfo = function (repoInfo, languages) {
     
     repoDataSection.append(div);
     repoDataSection.classList.remove("hide");
+    reposSection.classList.add("hide");
 };
 
 getRepos();
