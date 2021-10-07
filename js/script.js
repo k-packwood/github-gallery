@@ -1,9 +1,10 @@
 // ------------------------------ Global variables
 const overviewDiv = document.querySelector(".overview");
 const reposList = document.querySelector(".repo-list");
+const reposSection = document.querySelector(".repos");
+const repoDataSection = document.querySelector(".repo-data");
 
 const username = "k-packwood";
-
 
 
 // ------------------------------- Functions
@@ -46,5 +47,42 @@ const displayReposData = async function (repos) {
     }
 };
 
+const getRepoInfo = async function (repoName) {
+    const repo = await fetch(`https://api.github.com/repos/${username}/${repoName}`);
+    const data = await repo.json();
+
+    const fetchLanguages = await fetch(data.languages_url);
+    const languageData = await fetchLanguages.json();
+    let languagesArray = [];
+
+    for (let key in languageData){
+        languagesArray.push(key);
+    }
+
+    displayRepoInfo(data, languagesArray);
+};
+
+const displayRepoInfo = function (repoInfo, languages) {
+    repoDataSection.innerHTML = "";
+
+    const div = document.createElement("div");
+    div.innerHTML = `<h3>Name: ${repoInfo.name}</h3>
+                    <p>Description: ${repoInfo.description}</p>
+                    <p>Default Branch: ${repoInfo.default_branch}</p>
+                    <p>Languages: ${languages.join(", ")}</p>
+                    <a class="visit" href="${repoInfo.html_url}" target="_blank" rel="noreferrer noopener">View Repo on GitHub!</a>`;
+    
+    repoDataSection.append(div);
+    repoDataSection.classList.remove("hide");
+};
+
 getRepos();
 getUserInfo();
+
+// ----------------------------------- Event listeners
+const repoList = reposList.addEventListener("click", function (e) {
+    if (e.target.matches("h3")) {
+        let repoName = e.target.innerText;
+        getRepoInfo(repoName);
+    }
+});
