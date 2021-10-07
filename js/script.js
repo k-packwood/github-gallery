@@ -1,9 +1,8 @@
 // ------------------------------ Global variables
 const overviewDiv = document.querySelector(".overview");
+const reposList = document.querySelector(".repo-list");
 
 const username = "k-packwood";
-
-
 
 
 
@@ -30,4 +29,22 @@ const displayUserInfo = function (data) {
     overviewDiv.append(div);
 };
 
+const getRepos = async function () {
+    const repo = await fetch(`https://api.github.com/users/${username}/repos?sort=updated,per_page?=100`);
+    const data = await repo.json();
+
+    displayReposData(data);
+};
+
+const displayReposData = async function (repos) {
+    for (let repo of repos) {
+        const li = document.createElement("li");
+        li.classList.add("repo");
+        li.innerHTML = `<h3>${repo.name}</h3>`;
+
+        reposList.appendChild(li);
+    }
+};
+
+getRepos();
 getUserInfo();
