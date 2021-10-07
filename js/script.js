@@ -3,6 +3,8 @@ const overviewDiv = document.querySelector(".overview");
 const reposList = document.querySelector(".repo-list");
 const reposSection = document.querySelector(".repos");
 const repoDataSection = document.querySelector(".repo-data");
+const backToRepos = document.querySelector(".view-repos");
+const filterInput = document.querySelector(".filter-repos");
 
 const username = "k-packwood";
 
@@ -75,6 +77,7 @@ const displayRepoInfo = function (repoInfo, languages) {
     repoDataSection.append(div);
     repoDataSection.classList.remove("hide");
     reposSection.classList.add("hide");
+    backToRepos.classList.remove("hide");
 };
 
 getRepos();
@@ -86,4 +89,10 @@ const repoList = reposList.addEventListener("click", function (e) {
         let repoName = e.target.innerText;
         getRepoInfo(repoName);
     }
+});
+
+backToRepos.addEventListener("click", function(){
+    reposSection.classList.remove("hide");
+    repoInfo.classList.add("hide");
+    backToRepos.classList.add("hide");
 });
