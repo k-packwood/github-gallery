@@ -40,6 +40,8 @@ const getRepos = async function () {
 };
 
 const displayReposData = async function (repos) {
+    filterInput.classList.remove("hide");
+
     for (let repo of repos) {
         const li = document.createElement("li");
         li.classList.add("repo");
@@ -95,4 +97,20 @@ backToRepos.addEventListener("click", function(){
     reposSection.classList.remove("hide");
     repoInfo.classList.add("hide");
     backToRepos.classList.add("hide");
+});
+
+filterInput.addEventListener("input", function(e) {
+    const value = e.target.value;
+    const repos = document.querySelectorAll(".repo");
+
+    for (let repo of repos){
+        let inner = repo.innerText.toLowerCase();
+
+        if (inner.includes(value.toLowerCase())){
+            repo.classList.remove("hide");
+        } else {
+            repo.classList.add("hide");
+        }
+    }
+    console.log(value);
 });
